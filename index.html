@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Форма-анкета Фронт-Энд разработчика.</title>	
+</head>
+<body>
+	<form id="form" onsubmit="return false;">	
+		<input id="firstName"></input><label> Имя </label><br>
+		<input id="lastName"></input><label> Фамилия </label><br>
+		<input type="date" name="begin" 
+        placeholder="dd-mm-yyyy" value=""
+        min="1930-01-01" max="2020-12-31" id="birth"></input> День рождения <label></label><br>
+        <select id="js-framework">
+        	<option selected=""></option>
+        	<option value="angular">angular</option>
+        	<option value="react">react</option>
+        	<option value="vue">vue</option>	
+        </select><label> Выбор js технологии </label><br>
+        <select id="version"></select><label> Сперва выберите js-фреймворк </label><br>
+    	<input type="email" id="email"></input><label> Укажите Ваш эмейл </label><br>
+    	<input id="hobby"></input><label> Увлечение (хобби) </label><br>
+    	<input id="duration" type="number"></input><select id="duration_time">
+    		<option value="" selected></option>
+    		<option value="day">Дней</option>
+    		<option value="week">Недель</option>
+    		<option value="month">Месяцев</option>
+    		<option value="year">Лет</option>
+    	</select><label> Сколько времени занимаетесь этим хобби? </label><br>
+    	<button for="form" id="send" > Отправить </button>
+	</form>
+
+<script type="text/javascript">
+		//ожидаем когда произойдет выбор из списка фрейморка
+		document.querySelector("#js-framework").addEventListener("change", frameworkVersion);
+
+		//получаем выбранный js-фреймоврк и выводим для него список версий 
+		function frameworkVersion() {
+			
+		//если выбран фреймворк angular
+			if (document.querySelector("#js-framework").value == "angular") {document.querySelector("#version").innerHTML = '<option value="1.1.1">1.1.1</option><option value="1.2.1">1.2.1</option><option value="1.3.3">1.3.3</option>';}
+		//если выбран фреймворк react
+			if (document.querySelector("#js-framework").value == "react") {document.querySelector("#version").innerHTML = '<option value="2.1.2">2.1.2</option><option value="3.2.4">3.2.4</option><option value="4.3.1">4.3.1</option>';}
+		//если выбран фреймворк vue
+			if (document.querySelector("#js-framework").value == "vue") {document.querySelector("#version").innerHTML = '<option value="3.3.1">3.3.1</option><option value="5.2.1">5.2.1</option><option value="5.1.3">5.1.3</option>';}		
+		}
+
+		function server() {
+				//получаем данные из формы
+				var form = document.querySelector('#form');
+				var firstName = document.querySelector('#firstName');
+				var lastName = document.querySelector('#lastName');
+				var birth = document.querySelector('#birth');
+				var jsFramework = document.querySelector('#js-framework');
+				var version = document.querySelector('#version');
+				var email = document.querySelector('#email');
+				var hobby = document.querySelector('#hobby');
+				var duration = document.querySelector('#duration');
+				var duration_time = document.querySelector('#duration_time');
+
+
+				//проверяем все ли поля заполнены выводим данные из формы на экран. если все поля заполнены - данные выводятся на экран, а форма обновляется. если в поле эмейл указан уже существующий в БД ящик - выводится ошибка. если какое-либо поле не заполнено - выводится сообщение с просьбой заполний все поля, прежде чем форма отправится на сервер
+				if (firstName.value && lastName.value && birth.value && jsFramework.value && version.value && email.value && hobby.value && duration.value) {alert(" firstName: '" + firstName.value + "',\n lastName: '" + lastName.value + "',\n dateOfBirth: '" + birth.value + "',\n framework: '" + jsFramework.value + "',\n frameworkVersion: '" + version.value + "',\n email: '" + email.value + "',\n hobby: [{name: '" + hobby.value + "', duration: '" + duration.value + " " + duration_time.value + "'},\n]"); var cleanInputs = [firstName,lastName,birth,birth,jsFramework,version,email,hobby,duration]; cleanInputs.forEach(element => element.value = '');
+				} else if (email.value == 'test@test.test' ) {setTimeout('alert("Ошибка. Такой эмейл уже существует. Введите другой email.")', 2000);} else {alert("Сначала заполните все поля формы");} 		
+									
+		}
+//при клике на кнопку "отправить" - вызываем функцию server()
+document.querySelector("#send").addEventListener("click", server);
+
+</script>
+
+</body>
+</html>			
